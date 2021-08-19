@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{message}}</h1>
+    <h1 v-html="message" :class="classObject"></h1>
     <hr>
     <ChildComponent></ChildComponent>
   </div>
@@ -16,16 +16,18 @@ export default {
   data() {
     return {
     message: '<span>Hello Vue</span>',
+    classObject: {
+      'is-green': true
+    }
     }
   }
 }
 </script>
 
 <style scoped>
-  h1 {
+  .is-green {
     color: green;
   }
-
   hr {
     margin: 16px 0;
   }
