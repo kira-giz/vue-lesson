@@ -4,6 +4,13 @@
     <hr>
     <ChildComponent v-show="isShow"></ChildComponent>
     <p v-if="id === 12">1</p>
+    <p v-else-if="id === 2">2</p>
+    <template v-else-if="id === 3">
+      <p>2-1</p>
+      <p>2-2</p>
+      <p>2-3</p>
+    </template>
+    <p v-else>other</p>
   </div>
 </template>
 
@@ -18,7 +25,7 @@ export default {
     return {
     message: '<span>Hello Vue</span>',
     isShow: true,
-    id: 12,
+    id: 3,
     classObject: {
       'is-green': true
     }
