@@ -25,6 +25,7 @@ const config = {
     open: true,
     inline: true,
     port: 8080,
+    // contentBaseに指定したディレクトリに変更があった場合リロードされる
     watchContentBase: true,
     contentBase: path.join(__dirname, 'public'),
   },
