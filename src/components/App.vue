@@ -5,6 +5,8 @@
     <template v-for="item in items">
       <ChildComponent v-show="isShow" :key="item.id"></ChildComponent>
     </template>
+    <button @click="count++">Add to count</button>
+    <p>{{ count }}回クリックしました</p>
     <p v-if="id === 12">1</p>
     <p v-else-if="id === 2">2</p>
     <template v-else-if="id === 3">
@@ -35,6 +37,7 @@ export default {
       message: "<span>Hello Vue</span>",
       isShow: true,
       id: 3,
+      count: 0,
       classObject: {
         "is-green": true,
       },
