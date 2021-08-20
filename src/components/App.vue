@@ -5,18 +5,19 @@
     <button @click="addDescription">add description</button>
     <button @click="changeTextSize">large</button>
     <hr />
-    <child-component v-show="isShow">
-      <template v-slot:head>
+    <child-component v-if="isShow">
+      <template #head>
         <p>head slot</p>
       </template>
-      <template v-slot:default>
+      <template #default>
         <p>main slot</p>
         <p>main slot2</p>
       </template>
-      <template v-slot:foot>
+      <template #foot>
         <p>foot slot</p>
       </template>
     </child-component>
+    <button @click="toggleShow">toggle isShow</button>
     <hr />
     <p v-if="id === 1">1</p>
     <template v-else-if="id === 2">
@@ -32,16 +33,12 @@
       </child-component>
     </template>
     <hr />
-    <counter :count="count" @increment="incrementCount"></counter>
+    <counter></counter>
     <hr />
     <form action="#">
       <div>
         <span>名前：</span>
-        <input
-          type="text"
-          :value="form.name"
-          @input="form.name = $event.target.value"
-        />
+        <input-text v-model="form.name"></input-text>
         <p>name: {{ getInputName }}</p>
       </div>
       <div>
@@ -68,13 +65,13 @@
       </div>
       <div>
         <label for="">
-          <input type="checkbox" v-model="form.checked">
+          <input type="checkbox" v-model="form.checked" />
           20歳です
         </label>
         <p>{{ getCheckBoxValue }}</p>
       </div>
     </form>
-    <hr>
+    <hr />
     <input type="text" v-model="inputText" />
     <p>computed: {{ getUpperCaseText }}</p>
     <p>methods: {{ showUpperCaseText() }}</p>
@@ -85,25 +82,64 @@
       </p>
     </template>
     <button @click="updateText">update text</button>
+    <hr />
+    <article v-for="post in posts" :key="$uuid.v4()">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.body }}</p>
+    </article>
   </div>
 </template>
 
 <script>
 import ChildComponent from "Components/ChildComponent";
-import Counter from 'Components/Counter';
+import Counter from "Components/Counter";
+import InputText from "Components/InputText";
+import axios from "axios";
+
 export default {
   //es6のメソッド記法
+  beforeCreate() {
+    console.log("beforeCreate");
+    console.log(this.leads);
+  },
+  created() {
+    console.log("created");
+    console.log(this.posts);
+    axios.get("/data.json").then((res) => {
+      this.posts = res.data.posts;
+    });
+  },
+  beforeMount() {
+    console.log("beforeMount");
+    console.log(this.$el);
+  },
+  mounted() {
+    console.log("mounted");
+    console.log(this.$el);
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate");
+  },
+  updated() {
+    console.log("updated");
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy");
+  },
+  destroyed() {
+    console.log("destroyed");
+  },
   data() {
     return {
+      posts: [],
       leads: {
         message: "<span>Hello Vue</span>",
         description: "",
       },
       message: "<span>Hello Vue</span>",
-      isShow: true,
       description: "",
+      isShow: true,
       id: 2,
-      count: 0,
       inputText: "",
       classObject: {
         "is-green": true,
@@ -160,7 +196,7 @@ export default {
     },
     addDescription() {
       this.leads.description = "vue-lesson";
-      // console.log(this);
+      console.log(this);
       // console.log(this.description);
     },
     updateText() {
@@ -173,6 +209,9 @@ export default {
       // })
       // this.classObject = {...this.classObject, 'is-large': true}
       this.$set(this.classObject, "is-large", true);
+    },
+    toggleShow() {
+      this.isShow = !this.isShow;
     },
   },
   computed: {
@@ -192,7 +231,7 @@ export default {
     },
     getCheckBoxValue() {
       return this.form.checked;
-    }
+    },
   },
   watch: {
     inputText(value, oldValue) {
@@ -209,6 +248,7 @@ export default {
   components: {
     ChildComponent,
     Counter,
+    InputText,
   },
 };
 </script>
