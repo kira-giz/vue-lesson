@@ -32,8 +32,7 @@
       </child-component>
     </template>
     <hr />
-    <button @click="incrementCount">Add to count</button>
-    <p>{{ count }}回クリックされました</p>
+    <counter :count="count" @increment="incrementCount"></counter>
     <hr />
     <form action="#">
       <div>
@@ -75,6 +74,7 @@
         <p>{{ getCheckBoxValue }}</p>
       </div>
     </form>
+    <hr>
     <input type="text" v-model="inputText" />
     <p>computed: {{ getUpperCaseText }}</p>
     <p>methods: {{ showUpperCaseText() }}</p>
@@ -89,7 +89,8 @@
 </template>
 
 <script>
-import ChildComponent from "./ChildComponent";
+import ChildComponent from "Components/ChildComponent";
+import Counter from 'Components/Counter';
 export default {
   //es6のメソッド記法
   data() {
@@ -207,6 +208,7 @@ export default {
   },
   components: {
     ChildComponent,
+    Counter,
   },
 };
 </script>
